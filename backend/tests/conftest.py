@@ -1,8 +1,11 @@
+import os
 import pytest
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from sqlalchemy.pool import StaticPool
 
+# Set test database URL before importing app modules
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 
@@ -16,7 +19,10 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 
 @pytest.fixture(scope="function")
 def db_session():
+    # Import Base from app.database AFTER setting DATABASE_URL
+    # This ensures the engine uses the test database
     from app.database import Base
+    from app.models.user import User  # noqa: F401
     Base.metadata.create_all(bind=engine)
     yield TestingSessionLocal()
     Base.metadata.drop_all(bind=engine)
