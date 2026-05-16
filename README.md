@@ -11,7 +11,7 @@ AI-Exam-Base-Python 是一个前后端分离的 Web 应用，采用 Vue + FastAP
 | FastAPI | 0.115+ |
 | Python | 3.10+ |
 | SQLAlchemy | 2.0+ |
-| 数据库 | H2 |
+| 数据库 | SQLite |
 | 安全 | python-jose + PassLib (JWT + BCrypt) |
 | 迁移 | Flyway |
 | 服务器 | Uvicorn |
@@ -113,14 +113,6 @@ pip install -r requirements.txt
 python run.py
 ```
 
-### H2 数据库控制台
-
-开发环境可通过 H2 控制台查看数据库（如果启用）：
-
-- JDBC URL: `jdbc:h2:file:./data/db/sdd-dev`
-- 用户名: `sa`
-- 密码: (空)
-
 ## API 端点
 
 ### 认证接口
@@ -164,7 +156,7 @@ pytest tests/ -v
 
 | 配置项 | 说明 | 默认值 |
 |--------|------|--------|
-| DATABASE_URL | 数据库连接 URL | jdbc:h2:file:./data/db/sdd-dev |
+| DATABASE_URL | 数据库连接 URL | jdbc:h2:file:./data/db/sdd-dev (开发用 SQLite) |
 | JWT_SECRET_KEY | JWT 密钥 | (需修改) |
 | JWT_ALGORITHM | JWT 算法 | HS256 |
 | JWT_EXPIRE_HOURS | Token 过期时间（小时） | 24 |
