@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import engine, Base
 from app.routers import auth_router, user_router
+from app.models import User  # noqa: F401 - 导入以注册模型
 
 app = FastAPI(
     title="SDD-DEV API",
@@ -17,6 +19,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def create_tables():
+    """启动时创建所有表"""
+    Base.metadata.create_all(bind=engine)
+
 
 # 注册路由
 app.include_router(auth_router)
