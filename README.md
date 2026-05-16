@@ -156,7 +156,7 @@ pytest tests/ -v
 
 | 配置项 | 说明 | 默认值 |
 |--------|------|--------|
-| DATABASE_URL | 数据库连接 URL | jdbc:h2:file:./data/db/sdd-dev (开发用 SQLite) |
+| DATABASE_URL | 数据库连接 URL | sqlite:///./data/db/sdd-dev.db |
 | JWT_SECRET_KEY | JWT 密钥 | (需修改) |
 | JWT_ALGORITHM | JWT 算法 | HS256 |
 | JWT_EXPIRE_HOURS | Token 过期时间（小时） | 24 |
