@@ -4,15 +4,22 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 from app.config import settings
 
-# 转换 JDBC URL 为 SQLAlchemy 支持的 H2 URL
-# jdbc:h2:file:./data/db/sdd-dev -> h2:./data/db/sdd-dev
-# 支持通过环境变量覆盖（用于测试）
+# 数据库 URL 处理
+# 开发环境使用 SQLite 文件数据库（与 H2 兼容）
+# 格式: sqlite:///./data/db/sdd-dev.db
 _database_url = os.environ.get("DATABASE_URL", settings.database_url)
-database_url = _database_url.replace("jdbc:h2:file:", "h2:")
+
+# 将 H2 JDBC URL 转换为 SQLite URL
+if "jdbc:h2:file:" in _database_url:
+    # jdbc:h2:file:./data/db/sdd-dev -> sqlite:///./data/db/sdd-dev.db
+    db_path = _database_url.replace("jdbc:h2:file:", "")
+    database_url = f"sqlite:///{db_path}.db"
+else:
+    database_url = _database_url
 
 engine = create_engine(
     database_url,
-    connect_args={"mode": "MYSQL", "scale": 2} if "h2" in database_url else {},
+    connect_args={"check_same_thread": False} if "sqlite" in database_url else {},
     echo=True,
     pool_pre_ping=True,
 )
