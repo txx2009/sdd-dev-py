@@ -4,25 +4,19 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 from app.config import settings
 
-# 数据库 URL 处理
-# 开发环境使用 SQLite 文件数据库（与 H2 兼容）
-# 格式: sqlite:///./data/db/sdd-dev.db
-_database_url = os.environ.get("DATABASE_URL", settings.database_url)
+# 数据库 URL
+# 优先使用环境变量，否则使用配置默认值
+database_url = os.environ.get("DATABASE_URL", settings.database_url)
 
-# 将 H2 JDBC URL 转换为 SQLite URL
-if "jdbc:h2:file:" in _database_url:
-    # jdbc:h2:file:./data/db/sdd-dev -> sqlite:///./data/db/sdd-dev.db
-    db_path = _database_url.replace("jdbc:h2:file:", "")
-    database_url = f"sqlite:///{db_path}.db"
-else:
-    database_url = _database_url
+# 创建引擎
+engine_kwargs = {
+    "echo": False,  # 生产环境可改为 True 查看 SQL
+    "pool_pre_ping": True,
+}
+if "sqlite" in database_url:
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
 
-engine = create_engine(
-    database_url,
-    connect_args={"check_same_thread": False} if "sqlite" in database_url else {},
-    echo=True,
-    pool_pre_ping=True,
-)
+engine = create_engine(database_url, **engine_kwargs)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
