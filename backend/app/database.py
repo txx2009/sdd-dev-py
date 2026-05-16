@@ -5,7 +5,7 @@ from app.config import settings
 
 # 转换 JDBC URL 为 SQLAlchemy 支持的 H2 URL
 # jdbc:h2:file:./data/db/sdd-dev -> h2:./data/db/sdd-dev
-database_url = settings.database_url.replace("jdbc:", "")
+database_url = settings.database_url.replace("jdbc:h2:file:", "h2:")
 
 engine = create_engine(
     database_url,
