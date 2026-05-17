@@ -1,11 +1,14 @@
+import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
-    # 数据库
-    database_url: str = "jdbc:h2:file:./data/db/sdd-dev"
+    # 数据库 - SQLite 格式
+    # 默认为 backend/data/app.db
+    database_url: str = f"sqlite:///{Path(__file__).resolve().parent.parent / 'data' / 'app.db'}"
 
     # JWT
     jwt_secret_key: str = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"

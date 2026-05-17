@@ -1,8 +1,8 @@
 """Insert admin user
 
-Revision ID: 002
-Revises: 001
-Create Date: 2026-05-13 12:00:00
+Revision ID: 20260513100001
+Revises: 20260513100000
+Create Date: 2026-05-13 10:00:01
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '002'
-down_revision: Union[str, None] = '001'
+revision: str = '20260513100001'
+down_revision: Union[str, None] = '20260513100000'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

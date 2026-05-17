@@ -14,21 +14,37 @@ build/
 backend/data/
 *.db
 *.db-journal
+*.mv.db
+*.trace.db
 
 # Frontend
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+frontend/.env.local
+frontend/.env.*.local
 
 # IDE
 .vscode/
 .idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
 *.swp
 *.swo
+*~
+
+# Logs
+logs/
+*.log
+*.log.gz
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# History
+.history/
