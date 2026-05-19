@@ -1,0 +1,29 @@
+{
+  "description": "单元测试报告统计范围：剔除脚手架默认模块，仅保留考生新增功能相关测试",
+  "backend_exclude_path_prefixes": [
+    "tests/test_auth.py",
+    "tests/test_user.py"
+  ],
+  "backend_exclude_paths": [
+    "tests/conftest.py"
+  ],
+  "backend_coverage_path_prefixes": [
+    "app/services/",
+    "app/routers/"
+  ],
+  "frontend_exclude_path_contains": [
+    "/src/api/",
+    "/src/router/",
+    "/src/stores/",
+    "/src/layouts/",
+    "/src/components/common/",
+    "/src/views/login/",
+    "/src/views/dashboard/",
+    "/src/views/users/",
+    "/src/__tests__/App.test.js"
+  ],
+  "frontend_coverage_path_contains": [
+    "/src/views/",
+    "/src/services/"
+  ]
+}
