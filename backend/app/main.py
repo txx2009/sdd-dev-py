@@ -1,5 +1,7 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
+import sys
+import traceback
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from alembic.config import Config
@@ -20,7 +22,13 @@ def run_migrations():
 async def lifespan(app: FastAPI):
     """应用启动和关闭的生命周期事件"""
     # 启动时：运行数据库迁移
-    run_migrations()
+    try:
+        run_migrations()
+        print("INFO:     Database migrations completed successfully.", flush=True)
+    except Exception:
+        print("ERROR:    Application startup failed during migration:", flush=True)
+        traceback.print_exc(file=sys.stdout)
+        raise
     yield
     # 关闭时：清理资源（如果有）
 
